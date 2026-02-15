@@ -1,10 +1,25 @@
 song_name,artist,mood,genre,language,link,rank
 Believer,Imagine Dragons,energetic,rock,English,https://www.youtube.com/watch?v=7wtfhZwyrcc,2
 Stronger,Kanye West,energetic,hiphop,English,https://www.youtube.com/watch?v=PsO6ZnUZI0g,1
-Tum Hi Ho,Arijit Singh,sad,romantic,Hindi,https://www.youtube.com/watch?v=IJq0yyWug1k,2
-Channa Mereya,Arijit Singh,sad,romantic,Hindi,https://www.youtube.com/watch?v=284Ov7ysmfA,1
 Butta Bomma,Armaan Malik,happy,pop,Telugu,https://www.youtube.com/watch?v=2mDCVzruYzQ,1
 Shape of You,Ed Sheeran,happy,pop,English,https://www.youtube.com/watch?v=JGwWNGJdvx8,2
 Counting Stars,OneRepublic,energetic,pop,English,https://www.youtube.com/watch?v=hT_nvWreIhg,3
 Samajavaragamana (Telugu),Sid Sriram,romantic,melody,Telugu,https://youtu.be/OCg6BWlAXSw?si=l2xOYN8M-yJECecA,0
 Perfect (English),Ed Sheeran,romantic,pop,English,https://www.youtube.com/watch?v=2Vv-BfVoq4g,1
+
+Channa Mereya (Hindi),Arijit Singh,sad,romantic,Hindi,https://www.youtube.com/watch?v=284Ov7ysmfA,1
+Tum Hi Ho (Hindi),Arijit Singh,sad,romantic,Hindi,https://www.youtube.com/watch?v=IJq0yyWug1k,2
+Agar Tum Saath Ho (Hindi),Alka Yagnik,sad,romantic,Hindi,https://www.youtube.com/watch?v=sK7riqg2mr4,3
+Let Her Go (English),Passenger,sad,acoustic,English,https://www.youtube.com/watch?v=RBumgq5yVrA,4
+Someone Like You (English),Adele,sad,pop,English,https://www.youtube.com/watch?v=hLQl3WQQoQ0,5
+
+Hurt,Johnny Cash,sad,country,English,https://www.youtube.com/watch?v=8AHCfZTRGiI,0
+Fix You,Coldplay,sad,alternative,English,https://www.youtube.com/watch?v=k4V3Mo61fJM,0
+All I Want,Kodaline,sad,indie,English,https://www.youtube.com/watch?v=mtf7hC17IBM,0
+Say Something,A Great Big World,sad,pop,English,https://www.youtube.com/watch?v=-2U0Ivkn2Ds,0
+The Night We Met,Lord Huron,sad,indie,English,https://www.youtube.com/watch?v=KtlgYxa6BMU,0
+Jealous,Labrinth,sad,pop,English,https://www.youtube.com/watch?v=50VWOBi0VFs,0
+Skinny Love,Birdy,sad,indie,English,https://www.youtube.com/watch?v=aNzCDt2eidg,0
+Arcade,Duncan Laurence,sad,pop,English,https://www.youtube.com/watch?v=51u5fnyrGj4,0
+Un-break My Heart,Toni Braxton,sad,soul,English,https://www.youtube.com/watch?v=p2Rch6WvPJE,0
+Yesterday,The Beatles,sad,classic,English,https://www.youtube.com/watch?v=NrgmdOz227I,0

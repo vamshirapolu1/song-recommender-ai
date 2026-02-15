@@ -19,6 +19,16 @@
             color: #ff4d6d;
         }
 
+        /* ADDED: clickable home link */
+        .home-link {
+            text-decoration: none;
+            color: #ff4d6d;
+        }
+
+        .home-link:hover {
+            color: #ff2e63;
+        }
+
         .wrapper {
             background: #1b1b2f;
             padding: 40px;
@@ -46,6 +56,7 @@
             border-radius: 18px;
             width: 240px;
             transition: 0.3s ease;
+            position: relative;
         }
 
         .song-card a {
@@ -67,6 +78,17 @@
         .song-card:hover {
             transform: translateY(-6px);
             box-shadow: 0 0 30px #ff2e63;
+        }
+
+        /* RANK NUMBER BADGE */
+
+        .rank-badge {
+            position: absolute;
+            top: 8px;
+            left: 12px;
+            font-size: 14px;
+            font-weight: bold;
+            color: #ff4d6d;
         }
 
         /* OTHER 10 LIST */
@@ -161,7 +183,7 @@
 <body>
 
 <div class="header">
-    🎵 Song Recommender AI
+    <a href="/" class="home-link">🎵 Song Recommender AI</a>
 </div>
 
 <div class="wrapper">
@@ -175,6 +197,9 @@
         <div class="top-grid">
             {% for song in top_songs %}
                 <div class="song-card">
+
+                    <div class="rank-badge">{{ loop.index }}</div>
+
                     <a href="{{ song.link }}" target="_blank">
                         <div class="song-title">{{ song.song_name }}</div>
                         <div class="song-artist">{{ song.artist }}</div>
