@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request
 import pandas as pd
 import random
+import os
 
 app = Flask(__name__)
 
@@ -46,6 +47,7 @@ mood_keywords = {
                   "touching", "heart", "memories", "intense", "sensitive", "inner"]
 }
 
+
 def detect_mood(user_input):
     user_input = user_input.lower()
     mood_scores = {}
@@ -57,10 +59,8 @@ def detect_mood(user_input):
                 score += 1
         mood_scores[mood] = score
 
-    # Choose mood with highest score
     best_mood = max(mood_scores, key=mood_scores.get)
 
-    # If no keyword matched, default to Happy
     if mood_scores[best_mood] == 0:
         return "Happy"
 
@@ -69,11 +69,13 @@ def detect_mood(user_input):
 
 @app.route("/", methods=["GET", "POST"])
 def home():
+
     top_songs = []
     other_songs = []
     detected_mood = None
 
     if request.method == "POST":
+
         user_input = request.form["message"]
         detected_mood = detect_mood(user_input)
 
@@ -81,13 +83,11 @@ def home():
 
         if not filtered.empty:
 
-            # 🔥 Get ranked top 5 songs (rank 1–5)
             ranked = filtered[filtered["rank"] > 0]
             ranked = ranked.sort_values("rank")
 
             top_songs = ranked.head(5).to_dict(orient="records")
 
-            # 🎲 Get remaining songs (rank = 0)
             others = filtered[filtered["rank"] == 0]
 
             if len(others) > 10:
@@ -95,21 +95,15 @@ def home():
 
             other_songs = others.to_dict(orient="records")
 
-    return render_template("index.html",
-                           top_songs=top_songs,
-                           other_songs=other_songs,
-                           detected_mood=detected_mood)
+    return render_template(
+        "index.html",
+        top_songs=top_songs,
+        other_songs=other_songs,
+        detected_mood=detected_mood
+    )
 
 
-
-    return render_template("index.html",
-                           top_songs=top_songs,
-                           other_songs=other_songs,
-                           detected_mood=detected_mood)
-
-
-import os
-
+# IMPORTANT: Render deployment block
 if __name__ == "__main__":
-    port = int(os.environ.get("PORT", 5000))
+    port = int(os.environ.get("PORT", 10000))
     app.run(host="0.0.0.0", port=port)
