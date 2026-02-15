@@ -202,7 +202,10 @@
 
                     <a href="{{ song.link }}" target="_blank">
                         <div class="song-title">{{ song.song_name }}</div>
-                        <div class="song-artist">{{ song.artist }}</div>
+                        <div class="song-artist">
+    {{ song.artist }} • {{ song.language }}
+</div>
+
                     </a>
                 </div>
             {% endfor %}
