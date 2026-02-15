@@ -35,18 +35,37 @@
 
         /* CLICKABLE HOME LINK */
         .home-link {
+
     text-decoration: none;
 
     background: linear-gradient(45deg, #ff4d6d, #ff8fa3);
 
-    background-clip: text;              /* add this */
+    background-clip: text;
     -webkit-background-clip: text;
 
-    color: transparent;                 /* add this */
+    color: transparent;
     -webkit-text-fill-color: transparent;
+
+    font-weight: 700;
+    letter-spacing: 1px;
+
+    animation: titleGlow 3s ease-in-out infinite alternate;
 
     transition: 0.3s;
 }
+.home-link:hover {
+
+    background: linear-gradient(45deg, #ff2e63, #ff4d6d);
+
+    background-clip: text;
+    -webkit-background-clip: text;
+
+    color: transparent;
+    -webkit-text-fill-color: transparent;
+
+    animation: titleGlowHover 1.5s ease-in-out infinite alternate;
+}
+
 
         .home-link:hover {
 
@@ -315,6 +334,35 @@
         }
 
         /* MOBILE */
+        @keyframes titleGlow {
+
+    from {
+        text-shadow:
+            0 0 8px rgba(255,77,109,0.4),
+            0 0 18px rgba(255,77,109,0.25);
+    }
+
+    to {
+        text-shadow:
+            0 0 16px rgba(255,77,109,0.7),
+            0 0 32px rgba(255,77,109,0.4);
+    }
+}
+
+@keyframes titleGlowHover {
+
+    from {
+        text-shadow:
+            0 0 12px rgba(255,46,99,0.6),
+            0 0 24px rgba(255,46,99,0.4);
+    }
+
+    to {
+        text-shadow:
+            0 0 22px rgba(255,46,99,1),
+            0 0 45px rgba(255,46,99,0.6);
+    }
+}
 
         @media (max-width: 900px)
         {
