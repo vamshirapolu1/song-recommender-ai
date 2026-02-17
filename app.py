@@ -2,6 +2,7 @@ from flask import Flask, render_template, request
 import pandas as pd
 import random
 import os
+import re
 
 app = Flask(__name__)
 
@@ -16,6 +17,7 @@ def get_youtube_thumbnail(url):
     elif "youtu.be/" in url:
         video_id = url.split("youtu.be/")[1].split("?")[0]
     return f"https://img.youtube.com/vi/{video_id}/mqdefault.jpg"
+
 
 # Mood detection dictionary
 mood_keywords = {
@@ -57,20 +59,69 @@ mood_keywords = {
 }
 
 
+# Negation words
+negation_words = [
+    "not", "no", "never", "dont", "don't", "didn't",
+    "isn't", "wasn't", "can't", "cannot", "won't"
+]
+
+
+# Opposite mood mapping
+opposite_moods = {
+    "Happy": "Sad",
+    "Sad": "Happy",
+    "Energetic": "Chill",
+    "Chill": "Energetic",
+    "Motivational": "Sad",
+    "Romantic": "Breakup",
+    "Breakup": "Happy",
+    "Party": "Chill",
+    "Focus": "Chill",
+    "Travel": "Focus",
+    "Emotional": "Chill",
+    "Devotional": "Motivational"
+}
+
+
 def detect_mood(user_input):
-    user_input = user_input.lower()
+
+    text = user_input.lower()
+
+    words = re.findall(r"\w+", text)
+
     mood_scores = {}
 
+    detected_negation = False
+
     for mood, keywords in mood_keywords.items():
+
         score = 0
-        for word in keywords:
-            if word in user_input:
+
+        for keyword in keywords:
+
+            if keyword in text:
+
                 score += 1
+
+                # check negation before keyword
+                keyword_index = text.find(keyword)
+
+                before_text = text[:keyword_index]
+
+                for neg in negation_words:
+                    if neg in before_text.split()[-3:]:
+                        detected_negation = True
+                        score -= 2   # penalize score heavily
+
         mood_scores[mood] = score
 
     best_mood = max(mood_scores, key=mood_scores.get)
 
-    if mood_scores[best_mood] == 0:
+    # Apply negation logic
+    if detected_negation and best_mood in opposite_moods:
+        return opposite_moods[best_mood]
+
+    if mood_scores[best_mood] <= 0:
         return "Happy"
 
     return best_mood
@@ -87,7 +138,9 @@ def home():
     if request.method == "POST":
 
         user_input = request.form["message"]
+
         selected_language = request.form.get("language", "All")
+
         detected_mood = detect_mood(user_input)
 
         filtered = songs[songs["mood"].str.lower() == detected_mood.lower()].copy()
@@ -97,11 +150,9 @@ def home():
 
         if not filtered.empty:
 
-            # Add thumbnails
             filtered['thumbnail'] = filtered['link'].apply(get_youtube_thumbnail)
 
-            ranked = filtered[filtered["rank"] > 0]
-            ranked = ranked.sort_values("rank")
+            ranked = filtered[filtered["rank"] > 0].sort_values("rank")
 
             top_songs = ranked.head(5).to_dict(orient="records")
 
@@ -121,7 +172,7 @@ def home():
     )
 
 
-# IMPORTANT: Render deployment block
+# Render deployment block
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 10000))
     app.run(host="0.0.0.0", port=port)
