@@ -3,7 +3,7 @@
 <head>
 <title>Song Recommender AI</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 
 <style>
 
@@ -11,46 +11,18 @@
 margin:0;
 padding:0;
 box-sizing:border-box;
-font-family:'Inter',sans-serif;
+font-family:'Poppins',sans-serif;
 }
 
 body{
 
 background:
-radial-gradient(circle at 15% 20%, #1e1b4b, transparent 40%),
-radial-gradient(circle at 85% 80%, #0f172a, transparent 40%),
+radial-gradient(circle at 10% 20%, #1f1f47, transparent 40%),
+radial-gradient(circle at 90% 80%, #020617, transparent 40%),
 #020617;
 
 color:white;
-min-height:100vh;
 padding:40px;
-
-}
-
-/* FIX ALL LINK COLORS */
-
-a{
-text-decoration:none;
-color:white;
-}
-
-a:visited{
-color:white;
-}
-
-a:hover{
-color:white;
-}
-
-/* NAVBAR */
-
-.navbar{
-
-display:flex;
-justify-content:space-between;
-align-items:center;
-
-margin-bottom:40px;
 
 }
 
@@ -58,32 +30,14 @@ margin-bottom:40px;
 
 .logo{
 
-font-size:28px;
-font-weight:800;
+font-size:34px;
+font-weight:700;
 
-background:linear-gradient(90deg,#ff4d6d,#7c3aed);
+background:linear-gradient(90deg,#ff4d6d,#a855f7);
 -webkit-background-clip:text;
 color:transparent;
 
 text-decoration:none;
-
-cursor:pointer;
-
-}
-
-/* AI BADGE */
-
-.badge{
-
-background:rgba(255,255,255,0.08);
-
-padding:8px 18px;
-
-border-radius:30px;
-
-font-size:14px;
-
-border:1px solid rgba(255,255,255,0.1);
 
 }
 
@@ -92,14 +46,14 @@ border:1px solid rgba(255,255,255,0.1);
 .hero{
 
 text-align:center;
-margin-bottom:40px;
+margin:40px 0;
 
 }
 
 .hero h1{
 
 font-size:48px;
-font-weight:800;
+font-weight:700;
 
 background:linear-gradient(90deg,#ffffff,#a5b4fc);
 -webkit-background-clip:text;
@@ -110,15 +64,16 @@ color:transparent;
 .hero p{
 
 color:#94a3b8;
-margin-top:10px;
+margin-top:8px;
 
 }
 
-/* SEARCH BOX */
+/* SEARCH */
 
 .search-box{
 
 display:flex;
+align-items:center;
 
 background:rgba(255,255,255,0.05);
 
@@ -126,11 +81,11 @@ border-radius:60px;
 
 padding:8px;
 
-backdrop-filter:blur(20px);
-
 border:1px solid rgba(255,255,255,0.1);
 
-margin-bottom:40px;
+gap:15px;
+
+margin-bottom:30px;
 
 }
 
@@ -143,7 +98,7 @@ border:none;
 
 color:white;
 
-padding:18px;
+padding:16px;
 
 font-size:16px;
 
@@ -151,23 +106,25 @@ outline:none;
 
 }
 
-/* DROPDOWN FIX */
+/* MODERN SELECT */
 
 .search-box select{
 
-background:rgba(255,255,255,0.05);
+background:rgba(15,23,42,0.8);
 
 color:white;
 
-padding:0 20px;
-
 border:none;
+
+padding:14px 18px;
 
 border-radius:40px;
 
-outline:none;
-
 cursor:pointer;
+
+font-weight:500;
+
+border:1px solid rgba(255,255,255,0.1);
 
 }
 
@@ -182,33 +139,23 @@ color:white;
 
 .search-box button{
 
-background:linear-gradient(90deg,#7c3aed,#ff4d6d);
+background:linear-gradient(90deg,#a855f7,#ff4d6d);
 
 border:none;
 
 color:white;
 
-padding:16px 30px;
+padding:14px 30px;
 
-border-radius:50px;
+border-radius:40px;
 
 cursor:pointer;
 
 font-weight:600;
 
-transition:0.3s;
-
 }
 
-.search-box button:hover{
-
-transform:scale(1.05);
-
-box-shadow:0 0 20px rgba(124,58,237,0.6);
-
-}
-
-/* CONTAINER */
+/* GLASS CONTAINER */
 
 .container{
 
@@ -218,37 +165,35 @@ border-radius:20px;
 
 padding:30px;
 
-backdrop-filter:blur(20px);
-
 border:1px solid rgba(255,255,255,0.1);
 
-margin-bottom:40px;
+margin-bottom:30px;
 
 }
 
-/* TITLES */
+/* TITLE */
 
 .section-title{
 
 font-size:22px;
-font-weight:700;
 margin-bottom:20px;
+font-weight:600;
 
 }
 
-/* TOP SONG GRID */
+/* TOP GRID */
 
 .grid{
 
 display:grid;
 
-grid-template-columns:repeat(auto-fill,minmax(220px,1fr));
+grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
 
 gap:20px;
 
 }
 
-/* SONG CARD */
+/* CARD */
 
 .card{
 
@@ -258,7 +203,9 @@ border-radius:16px;
 
 overflow:hidden;
 
-transition:0.4s;
+transition:0.3s;
+
+position:relative;
 
 border:1px solid rgba(255,255,255,0.1);
 
@@ -266,23 +213,19 @@ border:1px solid rgba(255,255,255,0.1);
 
 .card:hover{
 
-transform:translateY(-10px);
+transform:translateY(-6px);
 
-box-shadow:0 0 30px rgba(124,58,237,0.5);
+box-shadow:0 0 30px rgba(168,85,247,0.5);
 
 }
-
-/* SONG IMAGE */
 
 .card img{
 
 width:100%;
-height:150px;
+height:140px;
 object-fit:cover;
 
 }
-
-/* CARD BODY */
 
 .card-body{
 
@@ -293,7 +236,6 @@ padding:15px;
 .title{
 
 font-weight:600;
-font-size:16px;
 
 }
 
@@ -301,31 +243,51 @@ font-size:16px;
 
 color:#94a3b8;
 font-size:14px;
-margin-top:4px;
 
 }
 
-/* OTHER SONG LIST */
+/* RANK BADGE */
 
-.other-list{
+.rank{
 
-display:flex;
-flex-direction:column;
-gap:10px;
+position:absolute;
 
-}
+top:10px;
+left:10px;
 
-.other-item{
+background:#ff4d6d;
 
-background:rgba(255,255,255,0.05);
-
-padding:14px;
+padding:4px 10px;
 
 border-radius:12px;
 
-transition:0.3s;
+font-size:12px;
+
+font-weight:600;
+
+}
+
+/* OTHER LIST */
+
+.other-item{
+
+display:flex;
+
+justify-content:space-between;
+
+align-items:center;
+
+background:rgba(255,255,255,0.05);
+
+padding:16px;
+
+border-radius:12px;
+
+margin-bottom:10px;
 
 border:1px solid rgba(255,255,255,0.1);
+
+transition:0.3s;
 
 }
 
@@ -333,8 +295,35 @@ border:1px solid rgba(255,255,255,0.1);
 
 transform:translateX(8px);
 
-box-shadow:0 0 15px rgba(124,58,237,0.5);
+box-shadow:0 0 20px rgba(168,85,247,0.5);
 
+}
+
+.left{
+
+display:flex;
+gap:15px;
+
+}
+
+.number{
+
+color:#ff4d6d;
+font-weight:600;
+width:25px;
+
+}
+
+.play{
+
+color:#ff4d6d;
+font-size:18px;
+
+}
+
+a{
+text-decoration:none;
+color:white;
 }
 
 </style>
@@ -343,17 +332,7 @@ box-shadow:0 0 15px rgba(124,58,237,0.5);
 
 <body>
 
-<!-- NAVBAR -->
-
-<div class="navbar">
-
-<a href="/" class="logo">Song Recommender AI</a>
-
-<div class="badge">AI Powered</div>
-
-</div>
-
-<!-- HERO -->
+<a href="/" class="logo">🎵 Song Recommender AI</a>
 
 <div class="hero">
 
@@ -363,17 +342,15 @@ box-shadow:0 0 15px rgba(124,58,237,0.5);
 
 </div>
 
-<!-- SEARCH FORM -->
-
 <form method="POST">
 
 <div class="search-box">
 
-<input type="text" name="message" placeholder="How are you feeling today?" required>
+<input name="message" placeholder="How are you feeling today?" required>
 
 <select name="language">
 
-<option value="All" {% if selected_language=='All' %}selected{% endif %}>All</option>
+<option value="All" {% if selected_language=='All' %}selected{% endif %}>All Languages</option>
 
 <option value="English" {% if selected_language=='English' %}selected{% endif %}>English</option>
 
@@ -383,23 +360,17 @@ box-shadow:0 0 15px rgba(124,58,237,0.5);
 
 </select>
 
-<button type="submit">Recommend</button>
+<button>Recommend</button>
 
 </div>
 
 </form>
 
-<!-- TOP SONGS -->
-
 {% if detected_mood %}
 
 <div class="container">
 
-<div class="section-title">
-
-Top Picks for {{detected_mood}}
-
-</div>
+<div class="section-title">🔥 Top 5 Picks for {{detected_mood}}</div>
 
 <div class="grid">
 
@@ -408,6 +379,8 @@ Top Picks for {{detected_mood}}
 <a href="{{song.link}}" target="_blank">
 
 <div class="card">
+
+<div class="rank">#{{loop.index}}</div>
 
 <img src="{{song.thumbnail}}">
 
@@ -431,19 +404,11 @@ Top Picks for {{detected_mood}}
 
 {% endif %}
 
-<!-- OTHER SONGS -->
-
 {% if other_songs %}
 
 <div class="container">
 
-<div class="section-title">
-
-Other Songs You May Like
-
-</div>
-
-<div class="other-list">
+<div class="section-title">🎶 Other songs you may like</div>
 
 {% for song in other_songs %}
 
@@ -451,17 +416,27 @@ Other Songs You May Like
 
 <div class="other-item">
 
-<div class="title">{{song.song_name}}</div>
+<div class="left">
+
+<div class="number">{{loop.index + 5}}</div>
+
+<div>
+
+<div>{{song.song_name}}</div>
 
 <div class="artist">{{song.artist}} • {{song.language}}</div>
+
+</div>
+
+</div>
+
+<div class="play">▶</div>
 
 </div>
 
 </a>
 
 {% endfor %}
-
-</div>
 
 </div>
 
