@@ -102,14 +102,16 @@ def home():
 
             other_songs=others.to_dict(orient="records")
 
-    return render_template("index.html",
-        top_songs=top_songs,
-        other_songs=other_songs,
-        detected_mood=detected_mood,
-        confidence=confidence,
-        selected_language=selected_language,
-        mode=mode
-    )
+        return render_template(
+    "index.html",
+    top_songs=top_songs,
+    other_songs=other_songs,
+    detected_mood=detected_mood,
+    confidence=confidence,
+    selected_language=selected_language,
+    mode=mode
+)
+
 
 if __name__=="__main__":
     port=int(os.environ.get("PORT",10000))
