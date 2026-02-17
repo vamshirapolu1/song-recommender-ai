@@ -6,7 +6,8 @@ import re
 
 app = Flask(__name__)
 
-songs = pd.read_csv("songs.csv")
+songs = pd.read_csv("songs.csv").fillna("")
+
 
 def get_youtube_thumbnail(url):
     video_id = ""
@@ -79,7 +80,6 @@ def home():
 
         user_input=request.form["message"]
         selected_language=request.form.get("language","All")
-        mode=request.form.get("mode","video")
 
         detected_mood,confidence=detect_mood(user_input)
 
@@ -109,7 +109,6 @@ def home():
     detected_mood=detected_mood,
     confidence=confidence,
     selected_language=selected_language,
-    mode=mode
 )
 
 

@@ -303,10 +303,6 @@ cursor:pointer;
 <option value="Telugu">Telugu</option>
 </select>
 
-<select name="mode">
-<option value="video">Video</option>
-<option value="audio">Audio</option>
-</select>
 
 <button>Recommend</button>
 
@@ -342,9 +338,13 @@ Confidence: {{confidence}}%
 <div class="card-body">
 
 <div class="title">
+
 {{song.song_name}}
+
 <span onclick="toggleQuote(event,'q{{loop.index}}')" style="cursor:pointer;">▼</span>
+
 </div>
+
 
 <div class="artist">{{song.artist}}</div>
 
@@ -363,6 +363,45 @@ Confidence: {{confidence}}%
 </div>
 
 {% endif %}
+
+{% if other_songs %}
+
+<div class="container">
+
+<div class="section-title">🎶 Other songs you may like</div>
+
+{% for song in other_songs %}
+
+<div class="other-item" onclick="playSong('{{song.link}}')">
+
+<div class="left">
+
+<div class="number">{{loop.index + 5}}</div>
+
+<div>
+
+<div>{{song.song_name}}</div>
+
+<div class="artist">{{song.artist}}</div>
+
+<div id="o{{loop.index}}" class="quote">
+{{song.quote}}
+</div>
+
+</div>
+
+</div>
+
+<div class="play">▶</div>
+
+</div>
+
+{% endfor %}
+
+</div>
+
+{% endif %}
+
 
 <div id="playerModal" class="player-modal">
 
@@ -391,18 +430,13 @@ function playSong(url){
 
 var id=getID(url);
 
-var mode="{{mode}}";
-
 var playerURL="https://www.youtube.com/embed/"+id+"?autoplay=1";
 
-if(mode==="audio"){
-playerURL+="&controls=1";
-}
-
 document.getElementById("playerModal").style.display="flex";
-document.getElementById("playerFrame").src=playerURL;
-}
 
+document.getElementById("playerFrame").src=playerURL;
+
+}
 
 function closePlayer(){
 
@@ -418,9 +452,11 @@ e.stopPropagation();
 var el=document.getElementById(id);
 
 el.style.display=el.style.display==="block"?"none":"block";
+
 }
 
 </script>
+
 
 </body>
 </html>
