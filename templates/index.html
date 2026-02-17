@@ -243,12 +243,20 @@ font-size:18px;
 
 /* QUOTE DROPDOWN */
 
+/* QUOTE DROPDOWN */
+
 .quote{
 display:none;
 font-size:13px;
 color:#cbd5e1;
 margin-top:5px;
+
+/* ADD THESE TWO LINES */
+word-wrap:break-word;
+white-space:normal;
+
 }
+
 
 /* PLAYER MODAL */
 
@@ -341,7 +349,8 @@ Confidence: {{confidence}}%
 
 {{song.song_name}}
 
-<span onclick="toggleQuote(event,'q{{loop.index}}')" style="cursor:pointer;">▼</span>
+<span onclick="event.stopPropagation(); toggleQuote(event,'q{{loop.index}}')" style="cursor:pointer;">▼</span>
+
 
 </div>
 
@@ -380,7 +389,11 @@ Confidence: {{confidence}}%
 
 <div>
 
-<div>{{song.song_name}}</div>
+<div>
+{{song.song_name}}
+<span onclick="event.stopPropagation(); toggleQuote(event,'o{{loop.index}}')" style="cursor:pointer;">▼</span>
+</div>
+
 
 <div class="artist">{{song.artist}}</div>
 

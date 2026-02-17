@@ -74,7 +74,6 @@ def home():
     detected_mood=None
     confidence=None
     selected_language="All"
-    mode="video"
 
     if request.method=="POST":
 
@@ -102,14 +101,16 @@ def home():
 
             other_songs=others.to_dict(orient="records")
 
-        return render_template(
-    "index.html",
-    top_songs=top_songs,
-    other_songs=other_songs,
-    detected_mood=detected_mood,
-    confidence=confidence,
-    selected_language=selected_language,
-)
+    # THIS MUST BE OUTSIDE POST
+    return render_template(
+        "index.html",
+        top_songs=top_songs,
+        other_songs=other_songs,
+        detected_mood=detected_mood,
+        confidence=confidence,
+        selected_language=selected_language
+    )
+
 
 
 if __name__=="__main__":
