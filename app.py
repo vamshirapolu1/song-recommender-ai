@@ -89,9 +89,30 @@ def detect_mood(user_input):
 
     words = re.findall(r"\w+", text)
 
-    mood_scores = {}
+    # STEP 1: Check negation patterns FIRST
+    for i, word in enumerate(words):
 
-    detected_negation = False
+        if word in negation_words:
+
+            # check next 3 words after negation
+            for j in range(i+1, min(i+4, len(words))):
+
+                next_word = words[j]
+
+                for mood, keywords in mood_keywords.items():
+
+                    if next_word in keywords:
+
+                        # return opposite immediately
+                        if mood in opposite_moods:
+                            return opposite_moods[mood]
+
+                        else:
+                            return "Sad"
+
+
+    # STEP 2: Normal mood detection
+    mood_scores = {}
 
     for mood, keywords in mood_keywords.items():
 
@@ -100,31 +121,21 @@ def detect_mood(user_input):
         for keyword in keywords:
 
             if keyword in text:
-
                 score += 1
-
-                # check negation before keyword
-                keyword_index = text.find(keyword)
-
-                before_text = text[:keyword_index]
-
-                for neg in negation_words:
-                    if neg in before_text.split()[-3:]:
-                        detected_negation = True
-                        score -= 2   # penalize score heavily
 
         mood_scores[mood] = score
 
+
     best_mood = max(mood_scores, key=mood_scores.get)
 
-    # Apply negation logic
-    if detected_negation and best_mood in opposite_moods:
-        return opposite_moods[best_mood]
 
-    if mood_scores[best_mood] <= 0:
+    # STEP 3: Default fallback
+    if mood_scores[best_mood] == 0:
         return "Happy"
 
+
     return best_mood
+
 
 
 @app.route("/", methods=["GET", "POST"])
