@@ -1,76 +1,82 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Mood-Based Song Recommendation</title>
-    <style>
-        body {
-            /* Set a default background here */
-            background-color: #020617; 
-            font-family: Arial, sans-serif;
-            color: white;
-            padding: 40px;
-            transition: 0.5s;
-        }
-        .container {
-            background: rgba(255,255,255,0.08);
-            padding: 25px;
-            border-radius: 16px;
-            margin-top: 20px;
-        }
-        input {
-            padding: 12px;
-            width: 60%;
-            border-radius: 8px;
-            border: none;
-        }
-        button {
-            padding: 10px 20px;
-            border-radius: 20px;
-            border: none;
-            cursor: pointer;
-            margin-top: 10px;
-        }
-        .song {
-            background: rgba(255,255,255,0.1);
-            padding: 12px;
-            border-radius: 12px;
-            margin-top: 12px;
-        }
-        .small {
-            font-size: 14px;
-            color: #cbd5f5;
-        }
-    </style>
+<title>Song Recommender AI</title>
+
+<style>
+body{
+    background: var(--bg);
+    color:white;
+    font-family:Arial;
+    padding:30px;
+}
+.container{
+    background:rgba(255,255,255,0.08);
+    padding:20px;
+    border-radius:16px;
+    margin-bottom:20px;
+}
+.song{
+    margin-top:12px;
+    padding:10px;
+    border-radius:12px;
+    background:rgba(0,0,0,0.3);
+}
+.small{
+    color:#cbd5f5;
+    font-size:14px;
+}
+iframe{
+    width:100%;
+    height:200px;
+    border-radius:12px;
+    margin-top:8px;
+}
+</style>
 </head>
 
-<body {% if theme %}style="background-color: {{ theme }};"{% endif %}>
+<body style="--bg: {{ theme }}">
 
-    <h1>🎵 Mood-Based Song Recommendation System</h1>
+<h1>🎵 Mood-Based Song Recommendation</h1>
 
-    <form method="POST">
-        <input name="message" placeholder="Describe how you are feeling..." required>
-        <br>
-        <button type="submit">Recommend Songs</button>
-        <button name="reset">Not feeling right?</button>
-    </form>
+<form method="POST">
+    <input name="message" placeholder="Describe how you feel..." required>
+    <select name="language">
+        <option>All</option>
+        <option>English</option>
+        <option>Hindi</option>
+        <option>Telugu</option>
+    </select>
+    <button type="submit">Recommend</button>
+</form>
 
-    {% if moods %}
-    <div class="container">
-        <h2>{{ emoji }} Detected Mood(s): {{ moods | join(" & ") }}</h2>
-        <p class="small">Confidence Level: {{ confidence }}%</p>
-        <p>{{ comment }}</p>
+{% if moods %}
+<div class="container">
+    <h2>{{ emoji }} Detected Mood(s): {{ moods | join(" & ") }}</h2>
+    <p class="small">Confidence: {{ confidence }}%</p>
+    <p>{{ comment }}</p>
+</div>
+
+<div class="container">
+    <h3>Top Picks</h3>
+    {% for song in top_songs %}
+    <div class="song">
+        <b>{{ song.song_name }}</b> – {{ song.artist }}
+        <div class="small">Perfect match for your mood</div>
+        <iframe src="{{ song.embed_link }}"></iframe>
     </div>
+    {% endfor %}
+</div>
 
-    <div class="container">
-        <h3>Recommended Songs</h3>
-        {% for song in songs %}
-        <div class="song">
-            <strong>{{ song.song_name }}</strong> – {{ song.artist }}
-            <p class="small">Recommended because it matches your {{ moods[0] }} mood.</p>
-        </div>
-        {% endfor %}
+<div class="container">
+    <h3>Other Songs</h3>
+    {% for song in other_songs %}
+    <div class="song">
+        {{ song.song_name }} – {{ song.artist }}
     </div>
-    {% endif %}
+    {% endfor %}
+</div>
+{% endif %}
 
 </body>
 </html>
