@@ -3,80 +3,301 @@
 <head>
 <title>Song Recommender AI</title>
 
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+
 <style>
-body{
-    background: var(--bg);
-    color:white;
-    font-family:Arial;
-    padding:30px;
+
+/* EXISTING CODE UNCHANGED ABOVE */
+
+/* ADD: mood theme colors */
+
+body.happy{
+background:
+radial-gradient(circle at 10% 20%, #064e3b, transparent 40%),
+radial-gradient(circle at 90% 80%, #022c22, transparent 40%),
+#022c22;
 }
-.container{
-    background:rgba(255,255,255,0.08);
-    padding:20px;
-    border-radius:16px;
-    margin-bottom:20px;
+
+body.sad{
+background:
+radial-gradient(circle at 10% 20%, #1e3a8a, transparent 40%),
+radial-gradient(circle at 90% 80%, #020617, transparent 40%),
+#020617;
 }
-.song{
-    margin-top:12px;
-    padding:10px;
-    border-radius:12px;
-    background:rgba(0,0,0,0.3);
+
+body.energetic{
+background:
+radial-gradient(circle at 10% 20%, #7f1d1d, transparent 40%),
+radial-gradient(circle at 90% 80%, #020617, transparent 40%),
+#020617;
 }
-.small{
-    color:#cbd5f5;
-    font-size:14px;
+
+body.chill{
+background:
+radial-gradient(circle at 10% 20%, #4c1d95, transparent 40%),
+radial-gradient(circle at 90% 80%, #020617, transparent 40%),
+#020617;
 }
-iframe{
-    width:100%;
-    height:200px;
-    border-radius:12px;
-    margin-top:8px;
+
+/* ADD: popup player */
+
+.player-modal{
+
+display:none;
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,0.85);
+justify-content:center;
+align-items:center;
+z-index:999;
+
 }
+
+.player-box{
+
+width:70%;
+height:70%;
+background:black;
+border-radius:15px;
+
+}
+
+.player-close{
+
+position:absolute;
+top:20px;
+right:30px;
+font-size:30px;
+cursor:pointer;
+
+}
+
+/* ADD: quote dropdown */
+
+.quote{
+display:none;
+margin-top:10px;
+color:#cbd5e1;
+font-size:14px;
+}
+
+.quote-btn{
+cursor:pointer;
+margin-left:10px;
+}
+
 </style>
+
 </head>
 
-<body style="--bg: {{ theme }}">
+<body class="{{ detected_mood|lower if detected_mood }}">
 
-<h1>🎵 Mood-Based Song Recommendation</h1>
+<a href="/" class="logo">🎵 Song Recommender AI</a>
+
+<div class="hero">
+
+<h1>Discover Music by Mood</h1>
+
+<p>Describe your emotion. AI will recommend perfect songs.</p>
+
+</div>
 
 <form method="POST">
-    <input name="message" placeholder="Describe how you feel..." required>
-    <select name="language">
-        <option>All</option>
-        <option>English</option>
-        <option>Hindi</option>
-        <option>Telugu</option>
-    </select>
-    <button type="submit">Recommend</button>
+
+<div class="search-box">
+
+<input name="message" placeholder="How are you feeling today?" required>
+
+<select name="language">
+
+<option value="All" {% if selected_language=='All' %}selected{% endif %}>All Languages</option>
+<option value="English" {% if selected_language=='English' %}selected{% endif %}>English</option>
+<option value="Hindi" {% if selected_language=='Hindi' %}selected{% endif %}>Hindi</option>
+<option value="Telugu" {% if selected_language=='Telugu' %}selected{% endif %}>Telugu</option>
+
+</select>
+
+<!-- ADD: audio/video toggle -->
+
+<select name="mode">
+<option value="video">Video Mode</option>
+<option value="audio">Audio Mode</option>
+</select>
+
+<button>Recommend</button>
+
+</div>
+
 </form>
 
-{% if moods %}
-<div class="container">
-    <h2>{{ emoji }} Detected Mood(s): {{ moods | join(" & ") }}</h2>
-    <p class="small">Confidence: {{ confidence }}%</p>
-    <p>{{ comment }}</p>
-</div>
+{% if detected_mood %}
 
 <div class="container">
-    <h3>Top Picks</h3>
-    {% for song in top_songs %}
-    <div class="song">
-        <b>{{ song.song_name }}</b> – {{ song.artist }}
-        <div class="small">Perfect match for your mood</div>
-        <iframe src="{{ song.embed_link }}"></iframe>
-    </div>
-    {% endfor %}
-</div>
 
-<div class="container">
-    <h3>Other Songs</h3>
-    {% for song in other_songs %}
-    <div class="song">
-        {{ song.song_name }} – {{ song.artist }}
-    </div>
-    {% endfor %}
-</div>
+<div class="section-title">
+
+🔥 Top 5 Picks for {{detected_mood}}
+
+<!-- ADD: confidence -->
+{% if confidence %}
+<span style="font-size:14px;color:#94a3b8;margin-left:15px;">
+Confidence: {{confidence}}%
+</span>
 {% endif %}
+
+</div>
+
+<div class="grid">
+
+{% for song in top_songs %}
+
+<a href="#" onclick="playSong('{{song.link}}');return false;">
+
+<div class="card">
+
+<div class="rank">#{{loop.index}}</div>
+
+<img src="{{song.thumbnail}}">
+
+<div class="card-body">
+
+<div class="title">
+{{song.song_name}}
+
+<!-- ADD: quote toggle -->
+<span class="quote-btn" onclick="toggleQuote(event,'q{{loop.index}}')">▼</span>
+
+</div>
+
+<div class="artist">{{song.artist}} • {{song.language}}</div>
+
+<div id="q{{loop.index}}" class="quote">
+{{song.quote}}
+</div>
+
+</div>
+
+</div>
+
+</a>
+
+{% endfor %}
+
+</div>
+
+</div>
+
+{% endif %}
+
+{% if other_songs %}
+
+<div class="container">
+
+<div class="section-title">🎶 Other songs you may like</div>
+
+{% for song in other_songs %}
+
+<a href="#" onclick="playSong('{{song.link}}');return false;">
+
+<div class="other-item">
+
+<div class="left">
+
+<div class="number">{{loop.index + 5}}</div>
+
+<div>
+
+<div>
+{{song.song_name}}
+
+<span class="quote-btn" onclick="toggleQuote(event,'o{{loop.index}}')">▼</span>
+
+</div>
+
+<div class="artist">{{song.artist}} • {{song.language}}</div>
+
+<div id="o{{loop.index}}" class="quote">
+{{song.quote}}
+</div>
+
+</div>
+
+</div>
+
+<div class="play">▶</div>
+
+</div>
+
+</a>
+
+{% endfor %}
+
+</div>
+
+{% endif %}
+
+<!-- ADD: PLAYER -->
+
+<div id="playerModal" class="player-modal">
+
+<div class="player-close" onclick="closePlayer()">✕</div>
+
+<div class="player-box">
+
+<iframe id="playerFrame" width="100%" height="100%" allow="autoplay"></iframe>
+
+</div>
+
+</div>
+
+<script>
+
+/* ADD: player logic */
+
+function getID(url){
+
+if(url.includes("v="))
+return url.split("v=")[1].split("&")[0];
+
+if(url.includes("youtu.be/"))
+return url.split("youtu.be/")[1].split("?")[0];
+
+}
+
+function playSong(url){
+
+var id=getID(url);
+
+document.getElementById("playerModal").style.display="flex";
+
+document.getElementById("playerFrame").src=
+"https://www.youtube.com/embed/"+id+"?autoplay=1";
+
+}
+
+function closePlayer(){
+
+document.getElementById("playerModal").style.display="none";
+document.getElementById("playerFrame").src="";
+
+}
+
+/* ADD: quote toggle */
+
+function toggleQuote(e,id){
+
+e.stopPropagation();
+
+var el=document.getElementById(id);
+
+el.style.display=el.style.display==="block"?"none":"block";
+
+}
+
+</script>
 
 </body>
 </html>

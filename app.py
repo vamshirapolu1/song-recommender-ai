@@ -1,108 +1,116 @@
 from flask import Flask, render_template, request
 import pandas as pd
 import random
+import os
 import re
 
 app = Flask(__name__)
 
 songs = pd.read_csv("songs.csv")
 
-# ---------------- MOOD DATA ---------------- #
+def get_youtube_thumbnail(url):
+    video_id = ""
+    if "v=" in url:
+        video_id = url.split("v=")[1].split("&")[0]
+    elif "youtu.be/" in url:
+        video_id = url.split("youtu.be/")[1].split("?")[0]
+    return f"https://img.youtube.com/vi/{video_id}/mqdefault.jpg"
 
-mood_data = {
-    "Happy": {
-        "emoji": "😊",
-        "color": "#22c55e",
-        "comment": "You seem happy! Enjoy these feel-good songs 🎶",
-        "keywords": ["happy", "joy", "excited", "fun", "cheerful", " ఆనందం", "ఖుషి", "खुश"]
-    },
-    "Sad": {
-        "emoji": "😢",
-        "color": "#60a5fa",
-        "comment": "Feeling sad? These songs will understand you 💙",
-        "keywords": ["sad", "cry", "down", "lonely", "bad", "దుఃఖం", "బాధ", "उदास"]
-    },
-    "Energetic": {
-        "emoji": "⚡",
-        "color": "#facc15",
-        "comment": "High energy mode ON! 🔥",
-        "keywords": ["gym", "workout", "power", "energetic", "dance", "ఉత్సాహం", "जोश"]
-    },
-    "Chill": {
-        "emoji": "😌",
-        "color": "#a855f7",
-        "comment": "Relax and breathe. Chill vibes only 🌙",
-        "keywords": ["relax", "calm", "peace", "chill", "slow", "ప్రశాంతం", "शांत"]
-    }
+mood_keywords = {
+    "Happy": ["happy","joy","fun","smile","celebrate"],
+    "Sad": ["sad","cry","lonely","depressed","hurt"],
+    "Energetic": ["energetic","gym","workout","power"],
+    "Chill": ["chill","relax","calm","peaceful"],
+    "Romantic": ["love","romantic","crush"],
+    "Focus": ["study","focus","exam"],
 }
 
-# ---------------- MOOD DETECTION ---------------- #
+negation_words = ["not","no","never","dont","don't"]
 
-def detect_moods(text):
-    text = text.lower()
-    scores = {}
+opposite_moods = {
+    "Happy":"Sad",
+    "Sad":"Happy",
+    "Energetic":"Chill",
+    "Chill":"Energetic"
+}
 
-    for mood, data in mood_data.items():
-        score = sum(1 for k in data["keywords"] if k in text)
-        if score > 0:
-            scores[mood] = score
+def detect_mood(user_input):
 
-    sorted_moods = sorted(scores, key=scores.get, reverse=True)
+    text = user_input.lower()
+    words = re.findall(r"\w+", text)
 
-    if not sorted_moods:
-        return ["Happy"], 40
+    for i, word in enumerate(words):
+        if word in negation_words:
+            for j in range(i+1,min(i+4,len(words))):
+                next_word = words[j]
+                for mood, keywords in mood_keywords.items():
+                    if next_word in keywords:
+                        return opposite_moods.get(mood,"Sad"),75
 
-    confidence = min(90, scores[sorted_moods[0]] * 30)
-    return sorted_moods[:2], confidence
+    mood_scores = {}
+
+    for mood, keywords in mood_keywords.items():
+        score=0
+        for keyword in keywords:
+            if keyword in text:
+                score+=1
+        mood_scores[mood]=score
+
+    best_mood=max(mood_scores,key=mood_scores.get)
+    confidence=min(95,50+(mood_scores[best_mood]*15))
+
+    if mood_scores[best_mood]==0:
+        return "Happy",50
+
+    return best_mood,confidence
 
 
-# ---------------- ROUTE ---------------- #
-
-@app.route("/", methods=["GET", "POST"])
+@app.route("/", methods=["GET","POST"])
 def home():
-    detected_moods = []
-    confidence = 0
-    theme = "#020617"
-    emoji = ""
-    comment = ""
-    top_songs = []
-    other_songs = []
-    selected_language = "All"
 
-    if request.method == "POST":
-        text = request.form.get("message", "")
-        selected_language = request.form.get("language", "All")
+    top_songs=[]
+    other_songs=[]
+    detected_mood=None
+    confidence=None
+    selected_language="All"
+    mode="video"
 
-        detected_moods, confidence = detect_moods(text)
-        main_mood = detected_moods[0]
+    if request.method=="POST":
 
-        mood_info = mood_data[main_mood]
-        theme = mood_info["color"]
-        emoji = mood_info["emoji"]
-        comment = mood_info["comment"]
+        user_input=request.form["message"]
+        selected_language=request.form.get("language","All")
+        mode=request.form.get("mode","video")
 
-        filtered = songs[songs["mood"] == main_mood]
+        detected_mood,confidence=detect_mood(user_input)
 
-        if selected_language != "All":
-            filtered = filtered[filtered["language"] == selected_language]
+        filtered=songs[songs["mood"].str.lower()==detected_mood.lower()].copy()
 
-        filtered = filtered.sample(frac=1)
+        if selected_language!="All":
+            filtered=filtered[filtered["language"].str.lower()==selected_language.lower()]
 
-        top_songs = filtered.head(5).to_dict(orient="records")
-        other_songs = filtered.iloc[5:10].to_dict(orient="records")
+        if not filtered.empty:
 
-    return render_template(
-        "index.html",
-        moods=detected_moods,
-        confidence=confidence,
-        theme=theme,
-        emoji=emoji,
-        comment=comment,
+            filtered['thumbnail']=filtered['link'].apply(get_youtube_thumbnail)
+
+            ranked=filtered[filtered["rank"]>0].sort_values("rank")
+            top_songs=ranked.head(5).to_dict(orient="records")
+
+            others=filtered[filtered["rank"]==0]
+
+            if len(others)>10:
+                others=others.sample(10)
+
+            other_songs=others.to_dict(orient="records")
+
+    return render_template("index.html",
         top_songs=top_songs,
         other_songs=other_songs,
-        selected_language=selected_language
+        detected_mood=detected_mood,
+        confidence=confidence,
+        selected_language=selected_language,
+        mode=mode
     )
 
-
-if __name__ == "__main__":
-    app.run(debug=True)
+if __name__=="__main__":
+    port=int(os.environ.get("PORT",10000))
+    app.run(host="0.0.0.0",port=port)

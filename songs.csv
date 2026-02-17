@@ -1,6 +1,26 @@
-song_name,artist,mood,language,embed_link
-Kesariya,Arijit Singh,Happy,Hindi,https://www.youtube.com/embed/BddP6PYo2gs
-Tum Hi Ho,Arijit Singh,Sad,Hindi,https://www.youtube.com/embed/Umqb9KENgmk
-Butta Bomma,Armaan Malik,Happy,Telugu,https://www.youtube.com/embed/h6zjYKiC4m8
-Samajavaragamana,Sid Sriram,Chill,Telugu,https://www.youtube.com/embed/2eZBf2H9kZ8
-Believer,Imagine Dragons,Energetic,English,https://www.youtube.com/embed/7wtfhZwyrcc
+song_name,artist,mood,language,link,rank,quote
+Believer,Imagine Dragons,energetic,English,https://www.youtube.com/watch?v=7wtfhZwyrcc,2
+Stronger,Kanye West,energetic,English,https://www.youtube.com/watch?v=PsO6ZnUZI0g,1
+Butta Bomma,Armaan Malik,happy,Telugu,https://www.youtube.com/watch?v=2mDCVzruYzQ,1
+Shape of You,Ed Sheeran,happy,English,https://www.youtube.com/watch?v=JGwWNGJdvx8,2
+Counting Stars,OneRepublic,energetic,English,https://www.youtube.com/watch?v=hT_nvWreIhg,3
+Samajavaragamana,Sid Sriram,romantic,Telugu,https://youtu.be/OCg6BWlAXSw?si=l2xOYN8M-yJECecA,0
+Perfect,Ed Sheeran,romantic,English,https://www.youtube.com/watch?v=2Vv-BfVoq4g,1
+
+Channa Mereya,Arijit Singh,sad,Hindi,https://www.youtube.com/watch?v=284Ov7ysmfA,1
+Tum Hi Ho,Arijit Singh,sad,Hindi,https://www.youtube.com/watch?v=IJq0yyWug1k,2
+Agar Tum Saath Ho,Alka Yagnik,sad,Hindi,https://www.youtube.com/watch?v=sK7riqg2mr4,3
+Let Her Go,Passenger,sad,English,https://www.youtube.com/watch?v=RBumgq5yVrA,4
+Someone Like You,Adele,sad,English,https://www.youtube.com/watch?v=hLQl3WQQoQ0,5
+
+Hurt,Johnny Cash,sad,English,https://www.youtube.com/watch?v=8AHCfZTRGiI,0
+Fix You,Coldplay,sad,English,https://www.youtube.com/watch?v=k4V3Mo61fJM,0
+All I Want,Kodaline,sad,English,https://www.youtube.com/watch?v=mtf7hC17IBM,0
+Say Something,A Great Big World,sad,English,https://www.youtube.com/watch?v=-2U0Ivkn2Ds,0
+The Night We Met,Lord Huron,sad,English,https://www.youtube.com/watch?v=KtlgYxa6BMU,0
+Jealous,Labrinth,sad,English,https://www.youtube.com/watch?v=50VWOBi0VFs,0
+Skinny Love,Birdy,sad,English,https://www.youtube.com/watch?v=aNzCDt2eidg,0
+Arcade,Duncan Laurence,sad,English,https://www.youtube.com/watch?v=51u5fnyrGj4,0
+Un-break My Heart,Toni Braxton,sad,English,https://www.youtube.com/watch?v=p2Rch6WvPJE,0
+Yesterday,The Beatles,sad,English,https://www.youtube.com/watch?v=NrgmdOz227I,0
+end of the beginning,djo,chill,English,https://youtu.be/B3Z4XGAxJB0?si=v81fBpCShaovkEkH,1
