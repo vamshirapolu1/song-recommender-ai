@@ -18,13 +18,24 @@ def get_youtube_thumbnail(url):
     return f"https://img.youtube.com/vi/{video_id}/mqdefault.jpg"
 
 mood_keywords = {
-    "Happy": ["happy","joy","fun","smile","celebrate"],
-    "Sad": ["sad","cry","lonely","depressed","hurt"],
-    "Energetic": ["energetic","gym","workout","power"],
-    "Chill": ["chill","relax","calm","peaceful"],
-    "Romantic": ["love","romantic","crush"],
-    "Focus": ["study","focus","exam"],
+
+"Happy": ["happy","joy","fun","smile","celebrate","excited","cheerful","great"],
+
+"Sad": ["sad","cry","lonely","depressed","hurt","breakup","heartbroken","miss"],
+
+"Energetic": ["energetic","gym","workout","power","active","dance","party","hype"],
+
+"Chill": ["chill","relax","calm","peaceful","normal","slow","soft","comfortable","bored","bore","empty","travel","journey"],
+
+"Romantic": ["love","romantic","crush","relationship","heart","affection","passion","date"],
+
+"Focus": ["study","focus","exam","concentrate","work","productive","assignment","coding"],  
+
+"Angry": ["angry","mad","frustrated","annoyed","rage","irritated","hate","furious"],
+
+"Stressed": ["stress","stressed","tension","tensed","pressure","overwhelmed","anxiety","worried"]
 }
+
 
 negation_words = ["not","no","never","dont","don't"]
 
@@ -32,8 +43,11 @@ opposite_moods = {
     "Happy":"Sad",
     "Sad":"Happy",
     "Energetic":"Chill",
-    "Chill":"Energetic"
+    "Chill":"Energetic",
+    "Angry":"Chill",
+    "Stressed":"Chill"
 }
+
 
 def detect_mood(user_input):
 
