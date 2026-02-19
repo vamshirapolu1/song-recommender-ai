@@ -29,7 +29,7 @@ mood_keywords = {
 
 "Romantic": ["love","romantic","crush","relationship","heart","affection","passion","date"],
 
-"Focus": ["study","focus","exam","concentrate","work","productive","assignment","coding"],  
+"Devotional": ["god","devotional","devotion","prayer","bhajan","temple","spiritual","worship","devine"],  
 
 "Angry": ["angry","mad","frustrated","annoyed","rage","irritated","hate","furious"],
 
