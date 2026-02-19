@@ -222,6 +222,13 @@
     font-size:14px;
     }
 
+    .dot{
+    font-size:16px;
+    margin:0 6px;
+    position:relative;
+    top:-1px;
+}
+
     .rank{
     position:absolute;
     top:10px;
@@ -383,7 +390,14 @@
     </div>
 
 
-    <div class="artist">{{song.artist}}</div>
+    <div class="artist">
+    {{song.artist}}
+    {% if song.language %}
+        <span class="dot">•</span>
+        {{song.language}}
+    {% endif %}
+    </div>
+
 
     <div id="q{{loop.index}}" class="quote">
     {{song.quote}}
@@ -423,7 +437,14 @@
     </div>
 
 
-    <div class="artist">{{song.artist}}</div>
+    <div class="artist">
+    {{song.artist}}
+    {% if song.language %}
+        <span class="dot">•</span>
+        {{song.language}}
+    {% endif %}
+    </div>
+
 
     <div id="o{{loop.index}}" class="quote">
     {{song.quote}}
