@@ -21,7 +21,7 @@ mood_keywords = {
 
 "Happy": ["happy","joy","fun","smile","celebrate","excited","cheerful","great"],
 
-"Sad": ["sad","cry","lonely","depressed","hurt","breakup","heartbroken","miss"],
+"Sad": ["sad","cry","lonely","depressed","hurt","breakup","heartbroken","miss","depress","depression"],
 
 "Energetic": ["energetic","gym","workout","power","active","dance","party","hype"],
 
