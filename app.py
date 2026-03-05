@@ -25,7 +25,7 @@ mood_keywords = {
 
 "Energetic": ["energetic","gym","workout","power","active","dance","party","hype"],
 
-"Chill": ["chill","relax","calm","peaceful","normal","slow","soft","comfortable","bored","bore","empty","travel","journey"],
+"Chill": ["chill","relax","calm","peaceful","normal","slow","soft","comfortable","bored","hangover","bore","empty","travel","journey"],
 
 "Romantic": ["love","romantic","crush","relationship","heart","affection","passion","date"],
 
